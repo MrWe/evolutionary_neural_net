@@ -14,12 +14,14 @@ class App(tk.Frame):
 
   def start(self):
     self.harvesters, self.hunters, self.storages, self.supplies = helper.init()
-    for j in range(10000):
-      self.show_all_elements()
-      for i in range(len(self.harvesters)):
-        self.harvesters[i].update()
-        self.harvesters[i].set_score()
-    helper.get_fitness(self.harvesters)
+    while(True):
+      for j in range(100):
+        self.show_all_elements()
+        for i in range(len(self.harvesters)):
+          self.harvesters[i].update()
+          self.harvesters[i].set_score()
+      self.harvesters = helper.get_fitness(self.harvesters)
+      self.harvesters = helper.generate_harvesters_population(self.harvesters)
 
 
       # self.show_all_elements()
@@ -37,12 +39,12 @@ class App(tk.Frame):
     self.canvas.delete("all")
     for i in range(len(self.harvesters)):
       self.draw_point(self.harvesters[i].coords, '#00ff00')
-    for i in range(len(self.hunters)):
-      self.draw_point(self.hunters[i].coords, '#ff0000')
-    for i in range(len(self.storages)):
-      self.draw_point(self.storages[i].coords, '#0000ff')
-    for i in range(len(self.supplies)):
-      self.draw_point(self.supplies[i].coords, '#00ffff')
+    # for i in range(len(self.hunters)):
+    #   self.draw_point(self.hunters[i].coords, '#ff0000')
+    # for i in range(len(self.storages)):
+    #   self.draw_point(self.storages[i].coords, '#0000ff')
+    # for i in range(len(self.supplies)):
+    #   self.draw_point(self.supplies[i].coords, '#00ffff')
 
   def _createCanvas(self):
     self.canvas = tk.Canvas(width = self.width, height = self.height,

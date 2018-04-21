@@ -1,24 +1,35 @@
 from creature import Creature
 from nn import NN
 import numpy as np
+import random
 
 class Harvester(Creature):
   """docstring for Harvester."""
   def __init__(self, health, speed, coords, dna):
     Creature.__init__(self, health, speed, coords)
-    self.weights = np.random.uniform(-1,1, 10)
-    self.output = np.random.uniform(-1,1, 2)
     self.actions = []
     self.lifespan = 0
     self.score = 0
-    self.dna = dna
-    self.action_nn = NN()
-    self.move_nn = NN()
+    self.action_nn = NN(2,2,2)
+    self.move_nn = NN(2,1,2)
+    if(dna is None):
+      self.move_nn.set_random_NN_weights()
+      self.dna = self.move_nn.get_weights()
+    else:
+      print(dna, end="\n")
+      print(dna)
+      self.move_nn.set_NN_weights()
+      self.dna = dna
+
 
   def set_score(self):
     self.score = self.lifespan
 
   def update(self):
+    #print(self.move_nn.compute_output(self.coords))
+    self.move(self.move_nn.compute_output(self.coords))
+    #print(self.move_nn.compute_output([random.uniform(-10, 10), random.uniform(-10,10)]))
+    #self.move(self.move_nn.compute_output([random.uniform(-100, 1), random.uniform(-100,1)]))
     self.lifespan += 1
 
   def harvest(self):
